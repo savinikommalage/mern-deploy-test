@@ -1,0 +1,113 @@
+.app {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+  padding: 40px 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin-top: 0;
+}
+
+.subtitle {
+  color: #475569;
+  margin-bottom: 24px;
+}
+
+.user-form {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.user-form input {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  font-size: 16px;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  cursor: pointer;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 15px;
+}
+
+button.secondary {
+  background-color: #64748b;
+}
+
+button.delete {
+  background-color: #dc2626;
+}
+
+.message {
+  background-color: #e0f2fe;
+  color: #0f172a;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.user-list {
+  display: grid;
+  gap: 16px;
+}
+
+.user-card {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: #f8fafc;
+}
+
+.card-actions {
+  display: flex;
+  gap: 10px;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 20px;
+  }
+
+  .user-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-actions,
+  .button-row {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .card-actions button,
+  .button-row button {
+    width: 100%;
+  }
+}
