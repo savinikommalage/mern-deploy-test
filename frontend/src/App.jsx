@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "mern-deploy-test-production.up.railway.app";
 
 const emptyForm = {
   name: "",
