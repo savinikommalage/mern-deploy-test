@@ -8,9 +8,16 @@ dotenv.config();
 
 const app = express();
 
-connectDB();
+const allowedOrigins = (process.env.FRONTEND_URL || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
 
-app.use(cors());
+const corsOptions = allowedOrigins.length
+  ? { origin: allowedOrigins }
+  : { origin: true };
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use("/api/users", userRoutes);
@@ -19,8 +26,13 @@ app.get("/", (req, res) => {
   res.send("User Manager API is running");
 });
 
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const startServer = async () => {
+  await connectDB();
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+};
+
+startServer();
