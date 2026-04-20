@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 
 const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL || "http://localhost:5000/api";
+  import.meta.env.VITE_API_BASE_URL ||
+  (import.meta.env.DEV ? "http://localhost:5000/api" : "");
 
 const emptyForm = {
   name: "",
@@ -17,12 +18,20 @@ function App() {
   const [message, setMessage] = useState("");
 
   const fetchUsers = async () => {
+    if (!API_BASE_URL) {
+      setMessage("Missing VITE_API_BASE_URL in Vercel environment variables");
+      return;
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/users`);
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
       const data = await response.json();
       setUsers(data);
     } catch (error) {
-      setMessage("Could not load users");
+      setMessage(error.message || "Could not load users");
     }
   };
 
@@ -53,7 +62,7 @@ function App() {
 
       const method = editingUserId ? "PUT" : "POST";
 
-      await fetch(url, {
+      const response = await fetch(url, {
         method,
         headers: {
           "Content-Type": "application/json"
@@ -61,12 +70,16 @@ function App() {
         body: JSON.stringify(userData)
       });
 
+      if (!response.ok) {
+        throw new Error(`Save failed with status ${response.status}`);
+      }
+
       setFormData(emptyForm);
       setEditingUserId(null);
       setMessage(editingUserId ? "User updated" : "User added");
       fetchUsers();
     } catch (error) {
-      setMessage("Could not save user");
+      setMessage(error.message || "Could not save user");
     }
   };
 
@@ -82,13 +95,18 @@ function App() {
 
   const handleDelete = async (id) => {
     try {
-      await fetch(`${API_BASE_URL}/users/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/users/${id}`, {
         method: "DELETE"
       });
+
+      if (!response.ok) {
+        throw new Error(`Delete failed with status ${response.status}`);
+      }
+
       setMessage("User deleted");
       fetchUsers();
     } catch (error) {
-      setMessage("Could not delete user");
+      setMessage(error.message || "Could not delete user");
     }
   };
 
